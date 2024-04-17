@@ -1,0 +1,62 @@
+/* SignUpForm.css */
+
+.signup-container {
+    background: #89bbfc; /* A lighter blue background, adjust the color to match your exact design */
+    padding: 2rem; /* Padding around the form */
+    border-radius: 20px; /* More pronounced rounded corners */
+    max-width: 395px; /* Max width of the form, adjust as necessary */
+    margin: auto; /* Center the form in the available space */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  }
+  
+.signup-container > p {
+    margin-top: 8px;
+    margin-bottom: 25px;
+    color: #fff;
+    font-size: 32px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.signup-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem; /* Space between form elements */
+}
+
+.signup-input {
+    padding: 1rem; /* Padding inside inputs */
+    border-radius: 10px; /* Rounded corners for inputs */
+    border: none; /* No border for a flat design */
+    background: #FFFFFF; /* White background for the inputs */
+    margin-bottom: 1rem; /* Margin between inputs */
+    box-shadow: inset 0 2px 4px rgb(0 0 0 / 5%); /* Slight inset shadow for depth */
+}
+
+.signup-input:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #BFDBFE; /* Blue glow effect when the input is focused */
+}
+
+.signup-btn {
+    padding: 1rem; /* Padding inside button */
+    border-radius: 10px; /* Rounded corners for button */
+    border: none;
+    background: #567ebf; /* A darker blue for the button, adjust as necessary */
+    color: white; /* White text for the button */
+    cursor: pointer; /* Cursor pointer */
+    transition: background-color 0.2s, box-shadow 0.2s; /* Smooth transition for hover effects */
+}
+
+.signup-btn:hover {
+    background: #9bbcf0; /* Even darker blue on hover */
+   /* More pronounced shadow on hover */
+}
+
+/* Feel free to adjust breakpoints and other specifics for responsive design */
+@media screen and (max-width: 960px) {
+/* Adjustments for medium screens */
+}
+
+@media screen and (max-width: 768px) {
+/* Adjustments for small screens */
+}
