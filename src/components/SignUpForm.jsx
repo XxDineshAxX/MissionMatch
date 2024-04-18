@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './SignUpForm.css'; // Your original CSS file
 import { auth } from '/src/index.js';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword} from 'firebase/auth';
 
 function SignUpForm() {
   const [showSignUp, setShowSignUp] = useState(true);
@@ -44,6 +44,19 @@ function SignUpForm() {
     event.preventDefault();
     console.log('Login Data:', formData);
     // Submit login data here
+    const auth = getAuth();
+    signInWithEmailAndPassword(auth, formData.email, formData.password)
+      .then((userCredential) => {
+    // Signed in 
+    const user = userCredential.user;
+    console.log(user)
+    alert("Sign-In Successful!")
+    // ...
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+  });
   };
 
   return (
@@ -96,9 +109,9 @@ function SignUpForm() {
                     <input
                         className="signup-input"
                         type="text"
-                        placeholder="Username"
-                        name="username"
-                        value={formData.username}
+                        placeholder="E-mail"
+                        name="email"
+                        value={formData.email}
                         onChange={handleChange}
                         required
                     />
