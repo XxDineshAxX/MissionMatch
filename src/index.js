@@ -13,7 +13,6 @@ const firebaseApp = initializeApp({
     measurementId: "G-2KYPEMD00C"
 });
 
-export const app = initializeApp(firebaseConfig);
-export const auth = getAuth();
+export const auth = getAuth(firebaseApp);
 export const storage = getStorage();
-export const db = getFirestore()
+export const db = getFirestore();

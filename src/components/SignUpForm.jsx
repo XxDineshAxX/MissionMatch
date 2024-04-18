@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import './SignUpForm.css'; // Your original CSS file
+import { auth } from '/src/index.js';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 
 function SignUpForm() {
   const [showSignUp, setShowSignUp] = useState(true);
@@ -19,11 +21,24 @@ function SignUpForm() {
     });
   };
 
-  const handleSignUpSubmit = (event) => {
+  const handleSignUpSubmit = async (event) => {
     event.preventDefault();
     console.log('Sign Up Data:', formData);
+
     // Submit sign-up data here
-  };
+    createUserWithEmailAndPassword(auth, formData.email, formData.password).then(function(userCred) {
+      console.log(userCred);
+      alert("Sign-up successful!");
+      // Reset form data
+      setFormData({
+        username: '',
+        email: '',
+        password: ''
+      });
+    }).catch(function(error) {
+      alert(error.message)
+    });
+  };  
 
   const handleLoginSubmit = (event) => {
     event.preventDefault();
@@ -59,7 +74,7 @@ function SignUpForm() {
                     <input
                         className="signup-input"
                         type="password"
-                        placeholder="Password"
+                        placeholder="Password: Must be at least 6 characters"
                         name="password"
                         value={formData.password}
                         onChange={handleChange}
