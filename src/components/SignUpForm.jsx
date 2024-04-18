@@ -2,9 +2,12 @@ import React, { useState } from 'react';
 import './SignUpForm.css'; // Your original CSS file
 import { auth } from '/src/index.js';
 import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword} from 'firebase/auth';
+import { useNavigate, Link } from "react-router-dom";
+
 
 function SignUpForm() {
   const [showSignUp, setShowSignUp] = useState(true);
+  const navigate = useNavigate();
 
   // Form data for both the sign-up and login forms
   const [formData, setFormData] = useState({
@@ -28,7 +31,7 @@ function SignUpForm() {
     // Submit sign-up data here
     createUserWithEmailAndPassword(auth, formData.email, formData.password).then(function(userCred) {
       console.log(userCred);
-      alert("Sign-up successful!");
+      navigate("/explore");
       // Reset form data
       setFormData({
         username: '',
@@ -50,7 +53,7 @@ function SignUpForm() {
     // Signed in 
     const user = userCredential.user;
     console.log(user)
-    alert("Sign-In Successful!")
+    navigate("/explore");
     // ...
   })
   .catch((error) => {
