@@ -51,11 +51,9 @@
   margin-right: 2rem;
 }
 
-
-
-.nav-item {
+/* .nav-item {
   height: 80px;
-}
+} */
 
 .nav-links {
   color: #fff;
@@ -86,7 +84,6 @@
 @media screen and (max-width: 960px) {
   .NavBarItems {
     position: relative;
-    
   }
 
   .nav-menu {
@@ -108,7 +105,6 @@
     opacity: 1;
     transition: all 0.5s ease;
     z-index: 1;
-    
   }
 
   .nav-links {

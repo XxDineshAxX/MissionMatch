@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "./Button";
 import "./NavBar.css";
+import { SigninContext } from "../contexts/SigninContext";
 
 function NavBar() {
   const [click, setClick] = useState(false);
   const [button, setButton] = useState(true);
+  const { isSignedIn, userInfo } = useContext(SigninContext);
 
   const handleClick = () => setClick(!click);
   const closeMobileMenu = () => setClick(false);
@@ -30,9 +32,6 @@ function NavBar() {
         <div className="navbar-container">
           <Link to="/" className="navbar-logo" onClick={closeMobileMenu}>
             MissionMatch
-            {/* <div class="logo">
-              <img src="/images/blackwhitelogo.png" alt="Logo"></img>
-            </div> */}
           </Link>
           <div className="menu-icon" onClick={handleClick}>
             <i className={click ? "fas fa-times" : "fa-solid fa-bars"}></i>
@@ -63,15 +62,28 @@ function NavBar() {
             </li>
             <li className="nav-item">
               <Link
+                to="/application"
+                className="nav-links"
+                onClick={closeMobileMenu}
+              >
+                Post Application
+              </Link>
+            </li>
+            {/* <li className="nav-item">
+              <Link
                 to="/sign-up"
                 className="nav-links-mobile"
                 onClick={closeMobileMenu}
               >
-                Sign Up
+                {isSignedIn ? `Welcome ${userInfo.username}` : "Sign Up"}
               </Link>
-            </li>
+            </li> */}
           </ul>
-          {button && <Button buttonStyle="btn--outline">SIGN UP</Button>}
+          {button && (
+            <Button buttonStyle="btn--outline">
+              {isSignedIn ? `Welcome ${userInfo.email}` : "SIGN UP"}
+            </Button>
+          )}
         </div>
       </nav>
     </>
