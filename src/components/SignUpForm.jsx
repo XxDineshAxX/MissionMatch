@@ -2,17 +2,18 @@ import { useContext, useState } from "react";
 import { SigninContext } from "../contexts/SigninContext";
 
 import "./SignUpForm.css"; // Your original CSS file
-import { auth } from "/src/index.js";
+import { auth, db, } from "/src/index.js";
 import {
   createUserWithEmailAndPassword,
   getAuth,
-  signInWithEmailAndPassword,
+  signInWithEmailAndPassword, updateProfile
 } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 
 function SignUpForm() {
   const [showSignUp, setShowSignUp] = useState(true);
-
+  const [err, setErr] = useState(false);
   const { setIsSignedIn, setUserInfo } = useContext(SigninContext);
   const navigate = useNavigate();
 
@@ -35,21 +36,24 @@ function SignUpForm() {
     event.preventDefault();
     console.log("Sign Up Data:", formData);
 
-    // Submit sign-up data here
-    createUserWithEmailAndPassword(auth, formData.email, formData.password)
-      .then(function (userCred) {
-        console.log(userCred);
-        navigate("/explore");
-        // Reset form data
-        setFormData({
-          username: "",
-          email: "",
-          password: "",
-        });
-      })
-      .catch(function (error) {
-        alert(error.message);
-      });
+    try {
+      const res = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
+          try {
+            await setDoc(doc(db, "users", res.user.uid), {
+              uid: res.user.uid,
+              username: formData.username,
+              email: formData.email,
+            });
+            await setDoc(doc(db, "userChats", res.user.uid), {});
+            navigate("/explore");
+          } catch (err) {
+            console.log(err);
+            setErr(true);
+          }
+    } catch (err) {
+      setErr(true);
+    }
+
   };
 
   const handleLoginSubmit = (event) => {
