@@ -1,12 +1,11 @@
 import { useContext, useState } from "react";
 import { SigninContext } from "../contexts/SigninContext";
-
 import "./SignUpForm.css"; // Your original CSS file
 import { auth, db, } from "/src/index.js";
 import {
   createUserWithEmailAndPassword,
   getAuth,
-  signInWithEmailAndPassword, updateProfile
+  signInWithEmailAndPassword,
 } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
@@ -33,27 +32,27 @@ function SignUpForm() {
   };
 
   const handleSignUpSubmit = async (event) => {
-    event.preventDefault();
-    console.log("Sign Up Data:", formData);
-
     try {
+      event.preventDefault();
+      console.log("Sign Up Data:", formData);
+      
       const res = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
-          try {
-            await setDoc(doc(db, "users", res.user.uid), {
-              uid: res.user.uid,
-              username: formData.username,
-              email: formData.email,
-            });
-            await setDoc(doc(db, "userChats", res.user.uid), {});
-            navigate("/explore");
-          } catch (err) {
-            console.log(err);
-            setErr(true);
-          }
+      const userData = {
+        uid: res.user.uid,
+        username: formData.username,
+        email: formData.email,
+      };
+  
+      await Promise.all([
+        setDoc(doc(db, "users", res.user.uid), userData),
+        setDoc(doc(db, "userChats", res.user.uid), {}),
+      ]);
+  
+      navigate("/explore");
     } catch (err) {
+      console.error(err);
       setErr(true);
     }
-
   };
 
   const handleLoginSubmit = (event) => {
