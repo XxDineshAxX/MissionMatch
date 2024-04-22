@@ -10,6 +10,7 @@ import Application from "./components/pages/Application";
 import Profile from "./components/pages/Profile";
 
 import { SigninProvider } from "./contexts/SigninContext";
+import Contact from "./components/pages/Contact";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
             <Route path="/sign-up" element={<SignUp />}></Route>
             <Route path="/application" element={<Application />}></Route>
             <Route path="/profile" element={<Profile />}></Route>
+            <Route path="/contact" element={<Contact />}></Route>
           </Routes>
           <Footer></Footer>
         </Router>
