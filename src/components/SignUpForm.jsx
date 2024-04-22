@@ -1,26 +1,25 @@
 import { useContext, useState } from "react";
 import { SigninContext } from "../contexts/SigninContext";
-import "./SignUpForm.css"; // Your original CSS file
-import { auth, db, } from "/src/index.js";
+import "./SignUpForm.css"; 
+import { auth, db } from "/src/index.js";
 import {
   createUserWithEmailAndPassword,
-  getAuth,
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 
 function SignUpForm() {
-  const [showSignUp, setShowSignUp] = useState(true);
+  const [showSignUp, setShowSignUp] = useState(true); // Toggle between sign-up and login forms
   const [err, setErr] = useState(false);
   const { setIsSignedIn, setUserInfo } = useContext(SigninContext);
   const navigate = useNavigate();
 
-  // Form data for both the sign-up and login forms
   const [formData, setFormData] = useState({
     username: "",
     email: "",
     password: "",
+    userType: "", 
   });
 
   const handleChange = (event) => {
@@ -32,22 +31,21 @@ function SignUpForm() {
   };
 
   const handleSignUpSubmit = async (event) => {
+    event.preventDefault();
     try {
-      event.preventDefault();
-      console.log("Sign Up Data:", formData);
-      
       const res = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
       const userData = {
         uid: res.user.uid,
         username: formData.username,
         email: formData.email,
+        userType: formData.userType, // Store the account type
       };
-  
+
       await Promise.all([
         setDoc(doc(db, "users", res.user.uid), userData),
         setDoc(doc(db, "userChats", res.user.uid), {}),
       ]);
-  
+
       navigate("/explore");
     } catch (err) {
       console.error(err);
@@ -57,14 +55,8 @@ function SignUpForm() {
 
   const handleLoginSubmit = (event) => {
     event.preventDefault();
-    console.log("Login Data:", formData);
-    // Submit login data here
-    const auth = getAuth();
     signInWithEmailAndPassword(auth, formData.email, formData.password)
       .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        console.log(user);
         setIsSignedIn(true);
         setUserInfo({
           email: formData.email,
@@ -72,9 +64,7 @@ function SignUpForm() {
         navigate("/explore");
       })
       .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.error(`${errorCode}: ${errorMessage}`);
+        console.error(error);
       });
   };
 
@@ -97,14 +87,14 @@ function SignUpForm() {
             <input
               className="signup-input"
               type="email"
-              placeholder="Email"
+              placeholder="E-mail"
               name="email"
               value={formData.email}
               onChange={handleChange}
               required
             />
             <input
-              className="signup-input"
+              class="signup-input"
               type="password"
               placeholder="Password: Must be at least 6 characters"
               name="password"
@@ -112,16 +102,20 @@ function SignUpForm() {
               onChange={handleChange}
               required
             />
-            <button type="submit" className="signup-btn">
-              Join MissionMatch
-            </button>
-            <button
-              type="button"
-              className="signup-btn"
-              onClick={() => setShowSignUp(false)}
+            <select
+              className="signup-input"
+              name="userType"
+              value={formData.userType}
+              onChange={handleChange}
+              required
             >
-              Have an account? Log In
-            </button>
+              <option value="">Select Account Type</option>
+              <option value="company">Company</option>
+              <option value="non-profit">Non-Profit</option>
+              <option value="single donor">Single Donor</option>
+            </select>
+            <button type="submit" className="signup-btn">Join MissionMatch</button>
+            <button type="button" className="signup-btn" onClick={() => setShowSignUp(false)}>Have an account? Log In</button>
           </form>
         </div>
       ) : (
@@ -139,7 +133,7 @@ function SignUpForm() {
               required
             />
             <input
-              className="signup-input"
+              class="signup-input"
               type="password"
               placeholder="Password"
               name="password"
@@ -147,16 +141,8 @@ function SignUpForm() {
               onChange={handleChange}
               required
             />
-            <button type="submit" className="signup-btn">
-              Log In
-            </button>
-            <button
-              type="button"
-              className="signup-btn"
-              onClick={() => setShowSignUp(true)}
-            >
-              Need an account? Sign Up
-            </button>
+            <button type="submit" className="signup-btn">Log In</button>
+            <button type="button" className="signup-btn" onClick={() => setShowSignUp(true)}>Need an account? Sign Up</button>
           </form>
         </div>
       )}
