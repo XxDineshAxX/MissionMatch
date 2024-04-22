@@ -34,24 +34,33 @@ function SignUpForm() {
     event.preventDefault();
     try {
       const res = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
+      
       const userData = {
         uid: res.user.uid,
         username: formData.username,
         email: formData.email,
-        userType: formData.userType, // Store the account type
+        userType: formData.userType,
       };
-
+  
       await Promise.all([
         setDoc(doc(db, "users", res.user.uid), userData),
         setDoc(doc(db, "userChats", res.user.uid), {}),
       ]);
-
+  
+      const userCredential = await signInWithEmailAndPassword(auth, formData.email, formData.password);
+      
+      setIsSignedIn(true);
+      setUserInfo({
+        email: formData.email,
+        username: formData.username,
+      });
+  
       navigate("/explore");
     } catch (err) {
-      console.error(err);
-      setErr(true);
+      console.error("Error during sign-up or login:", err); // Handle errors
     }
   };
+  
 
   const handleLoginSubmit = (event) => {
     event.preventDefault();
