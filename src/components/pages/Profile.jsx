@@ -1,28 +1,41 @@
 import "./Profile.css";
+import { useState, useEffect, useContext } from "react";
+import { SigninContext } from "../../contexts/SigninContext";
 
-const posts = [
-  {
-    id: 1,
-    title: "First Post",
-    description: "This is the first post",
-  },
-  {
-    id: 2,
-    title: "Second Post",
-    description: "This is the second post",
-  },
-  {
-    id: 3,
-    title: "Third Post",
-    description: "This is the third post",
-  },
-];
+function Profile () {
 
-const Profile = () => {
+  const posts = [
+    {
+      id: 1,
+      title: "First Post",
+      description: "This is the first post",
+    },
+    {
+      id: 2,
+      title: "Second Post",
+      description: "This is the second post",
+    },
+    {
+      id: 3,
+      title: "Third Post",
+      description: "This is the third post",
+    },
+  ];
+
+  const { isSignedIn, userInfo } = useContext(SigninContext);
+
   return (
     <div className="profile-container">
       <h2>Profile</h2>
-      <h2>Username Here</h2>
+      {
+      !isSignedIn && 
+      <h2>User Name</h2>
+      }
+
+      {
+      isSignedIn && 
+      <h2>{userInfo.username}</h2>
+      }
 
       <div className="feed-container">
         {/* Display the feed of posts here */}
@@ -38,6 +51,8 @@ const Profile = () => {
       </div>
     </div>
   );
-};
+
+}
+
 
 export default Profile;

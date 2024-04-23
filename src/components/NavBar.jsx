@@ -81,7 +81,7 @@ function NavBar() {
           </ul>
           {button && (
             <Button buttonStyle="btn--outline">
-              {isSignedIn ? `Welcome ${userInfo.email}` : "SIGN UP"}
+              {isSignedIn ? `Welcome ${userInfo.username}` : "SIGN UP"}
             </Button>
           )}
         </div>
