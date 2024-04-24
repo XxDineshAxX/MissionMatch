@@ -9,8 +9,8 @@ function Footer() {
           <div className="footer-link-items">
             <h2>Menu</h2>
             <Link to="/sign-up">Home</Link>
-            <Link to="/">Service</Link>
-            <Link to="/">Explore</Link>
+            <Link to="/services">Service</Link>
+            <Link to="/explore">Explore</Link>
           </div>
           <div className="footer-link-items">
             <h2>Contact Us</h2>
@@ -22,7 +22,7 @@ function Footer() {
       <section className="social-media">
         <div className="social-media-wrap">
           <div className="footer-logo">
-            <Link to="/" className="social-logo">
+            <Link to="/MissionMatch/" className="social-logo">
               MissionMatch
             </Link>
           </div>
