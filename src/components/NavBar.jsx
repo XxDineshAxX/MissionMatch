@@ -7,8 +7,8 @@ import { SigninContext } from "../contexts/SigninContext";
 function NavBar() {
   const [click, setClick] = useState(false);
   const [button, setButton] = useState(true);
-  const { isSignedIn, userInfo } = useContext(SigninContext);
-
+  
+  const {currentUser} = useContext(SigninContext)
   const handleClick = () => setClick(!click);
   const closeMobileMenu = () => setClick(false);
 
@@ -25,6 +25,8 @@ function NavBar() {
   }, []);
 
   window.addEventListener("resize", showButton);
+
+  console.log(currentUser)
 
   return (
     <>
@@ -77,19 +79,19 @@ function NavBar() {
                 Post Application
               </Link>
             </li>
-            {/* <li className="nav-item">
+            <li className="nav-item">
               <Link
                 to="/sign-up"
                 className="nav-links-mobile"
                 onClick={closeMobileMenu}
               >
-                {isSignedIn ? `Welcome ${userInfo.username}` : "Sign Up"}
+                {currentUser != null ? `Welcome ${currentUser.displayName}` : "Sign Up"}
               </Link>
-            </li> */}
+            </li>
           </ul>
           {button && (
             <Button buttonStyle="btn--outline">
-              {isSignedIn ? `Welcome ${userInfo.username}` : "SIGN UP"}
+              {currentUser != null ? `Welcome ${currentUser.displayName}` : "SIGN UP"}
             </Button>
           )}
         </div>

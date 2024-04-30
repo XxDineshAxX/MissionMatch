@@ -5,6 +5,7 @@ import { auth, db } from "/src/index.js";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  updateProfile,
 } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
@@ -12,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 function SignUpForm() {
   const [showSignUp, setShowSignUp] = useState(true); // Toggle between sign-up and login forms
   const [err, setErr] = useState(false);
-  const { setIsSignedIn, setUserInfo } = useContext(SigninContext);
+  //const { setIsSignedIn, setUserInfo } = useContext(SigninContext);
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -43,17 +44,20 @@ function SignUpForm() {
       };
   
       await Promise.all([
+        updateProfile(res.user, {
+          displayName: formData.username,
+        }),
         setDoc(doc(db, "users", res.user.uid), userData),
         setDoc(doc(db, "userChats", res.user.uid), {}),
       ]);
   
       const userCredential = await signInWithEmailAndPassword(auth, formData.email, formData.password);
       
-      setIsSignedIn(true);
-      setUserInfo({
-        email: formData.email,
-        username: formData.username,
-      });
+      //setIsSignedIn(true);
+      // setUserInfo({
+      //   email: formData.email,
+      //   username: formData.username,
+      // });
   
       navigate("/explore");
     } catch (err) {
@@ -66,10 +70,10 @@ function SignUpForm() {
     event.preventDefault();
     signInWithEmailAndPassword(auth, formData.email, formData.password)
       .then((userCredential) => {
-        setIsSignedIn(true);
-        setUserInfo({
-          email: formData.email,
-        });
+        //setIsSignedIn(true);
+        // setUserInfo({
+        //   email: formData.email,
+        // });
         navigate("/explore");
       })
       .catch((error) => {

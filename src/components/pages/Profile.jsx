@@ -1,8 +1,10 @@
 import "./Profile.css";
-import { useState, useEffect, useContext } from "react";
+import React, { useContext } from 'react'
+import {signOut} from "firebase/auth"
 import { SigninContext } from "../../contexts/SigninContext";
+import { auth } from '../../index'
 
-function Profile () {
+const Profile = () => {
 
   const posts = [
     {
@@ -22,20 +24,14 @@ function Profile () {
     },
   ];
 
-  const { isSignedIn, userInfo } = useContext(SigninContext);
+  const {currentUser} = useContext(SigninContext)
 
   return (
     <div className="profile-container">
       <h2>Profile</h2>
-      {
-      !isSignedIn && 
-      <h2>User Name</h2>
-      }
 
-      {
-      isSignedIn && 
-      <h2>{userInfo.username}</h2>
-      }
+      <h2>{currentUser.username}</h2>
+      <button onClick={()=>signOut(auth)}>logout</button>
 
       <div className="feed-container">
         {/* Display the feed of posts here */}
