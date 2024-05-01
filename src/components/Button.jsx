@@ -20,7 +20,7 @@ export const Button = ({
   buttonStyle,
   buttonSize,
 }) => {
-  const { isSignedIn } = useContext(SigninContext);
+  const { currentUser } = useContext(SigninContext);
 
   const checkButtonStyle = STYLES.includes(buttonStyle)
     ? buttonStyle
@@ -29,7 +29,7 @@ export const Button = ({
   const checkButtonSize = SIZES.includes(buttonSize) ? buttonSize : SIZES[0];
 
   // If user presses the button it will direct based on if user is signed in or not.
-  if (isSignedIn) {
+  if (currentUser) {
     return (
       <Link to="/profile" className="btn-mobile">
         <button

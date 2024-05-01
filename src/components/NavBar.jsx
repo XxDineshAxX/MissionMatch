@@ -7,8 +7,8 @@ import { SigninContext } from "../contexts/SigninContext";
 function NavBar() {
   const [click, setClick] = useState(false);
   const [button, setButton] = useState(true);
-  
-  const {currentUser} = useContext(SigninContext)
+
+  const { currentUser } = useContext(SigninContext);
   const handleClick = () => setClick(!click);
   const closeMobileMenu = () => setClick(false);
 
@@ -26,7 +26,7 @@ function NavBar() {
 
   window.addEventListener("resize", showButton);
 
-  console.log(currentUser)
+  console.log(currentUser);
 
   return (
     <>
@@ -79,19 +79,31 @@ function NavBar() {
                 Post Application
               </Link>
             </li>
-            <li className="nav-item">
-              <Link
-                to="/sign-up"
-                className="nav-links-mobile"
-                onClick={closeMobileMenu}
-              >
-                {currentUser != null ? `Welcome ${currentUser.displayName}` : "Sign Up"}
-              </Link>
-            </li>
+            {currentUser != null ? (
+              <li className="nav-item">
+                <Link
+                  to="/profile"
+                  className="nav-links-mobile"
+                  onClick={closeMobileMenu}
+                >
+                  Welcome {currentUser.email}
+                </Link>
+              </li>
+            ) : (
+              <li className="nav-item">
+                <Link
+                  to="/sign-up"
+                  className="nav-links-mobile"
+                  onClick={closeMobileMenu}
+                >
+                  Sign Up
+                </Link>
+              </li>
+            )}
           </ul>
           {button && (
             <Button buttonStyle="btn--outline">
-              {currentUser != null ? `Welcome ${currentUser.displayName}` : "SIGN UP"}
+              {currentUser != null ? `Welcome ${currentUser.email}` : "SIGN UP"}
             </Button>
           )}
         </div>

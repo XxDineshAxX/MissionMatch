@@ -1,11 +1,11 @@
 import "./Profile.css";
-import React, { useContext } from 'react'
-import {signOut} from "firebase/auth"
+import React, { useContext } from "react";
+import { signOut } from "firebase/auth";
 import { SigninContext } from "../../contexts/SigninContext";
-import { auth } from '../../index'
+import { auth } from "../../index";
+import { Link } from "react-router-dom";
 
 const Profile = () => {
-
   const posts = [
     {
       id: 1,
@@ -24,14 +24,20 @@ const Profile = () => {
     },
   ];
 
-  const {currentUser} = useContext(SigninContext)
+  const { currentUser } = useContext(SigninContext);
 
   return (
     <div className="profile-container">
       <h2>Profile</h2>
 
       <h2>{currentUser.username}</h2>
-      <button onClick={()=>signOut(auth)}>logout</button>
+      <button className="signup-btn" onClick={() => signOut(auth)}>
+        logout
+      </button>
+
+      <Link to="/admin">
+        <button className="signup-btn">Go to Admin Page </button>{" "}
+      </Link>
 
       <div className="feed-container">
         {/* Display the feed of posts here */}
@@ -47,8 +53,6 @@ const Profile = () => {
       </div>
     </div>
   );
-
-}
-
+};
 
 export default Profile;

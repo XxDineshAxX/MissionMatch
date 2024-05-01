@@ -11,6 +11,7 @@ import Profile from "./components/pages/Profile";
 
 import { SigninProvider } from "./contexts/SigninContext";
 import Contact from "./components/pages/Contact";
+import Admin from "./components/pages/Admin";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
             <Route path="/application" element={<Application />}></Route>
             <Route path="/profile" element={<Profile />}></Route>
             <Route path="/contact" element={<Contact />}></Route>
+            <Route path="/admin" element={<Admin />}></Route>
           </Routes>
           <Footer></Footer>
         </Router>
