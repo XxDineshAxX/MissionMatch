@@ -7,6 +7,7 @@ function DonationProgressBar() {
   const [confirmedDonation, setConfirmedDonation] = useState(null);
   const [raisedAmount, setRaisedAmount] = useState(0);
   const goalAmount = 1000; // Set your fundraising goal amount here
+  //const stripe = ('stripe')('sk_test_51PBjwgCnXQzMJSHMgxTM0w0hnPRY9HLt1S7yelFFtZRXFwqI8beBwIheMoDcv4lVEKTb1svKxFEUHqGqWErJwVGe00RKzEpF4i'); // stripe instance, test
 
   const handleDonationChange = (event) => {
     const amount = parseFloat(event.target.value);
@@ -16,6 +17,8 @@ function DonationProgressBar() {
   };
 
   const handleConfirmDonation = () => {
+    window.open("https://donate.stripe.com/test_bIY00d3JW9E3exq7ss", "_blank");
+    // Update progress bar only upon confirmed payment
     setConfirmedDonation(donationAmount);
     setRaisedAmount(raisedAmount + donationAmount);
   };
