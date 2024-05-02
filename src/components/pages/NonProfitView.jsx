@@ -25,7 +25,7 @@ const NonProfitView = () => {
         });
         const shuffledDonors = donorList.sort(() => Math.random() - 0.5);
         const randomDonors = shuffledDonors.slice(0, 10);
-        setNonProfits(randomDonors);
+        setDonors(randomDonors);
       } catch (error) {
         setError(error.message);
       }
@@ -38,9 +38,9 @@ const NonProfitView = () => {
       <h2>Available Grants from Companies</h2>
       <div className="company-grid">
       {error && <div>Error: {error}</div>}
-        {nonProfits.map(nonProfit => (
-          <div key={nonProfit.uid} className="nonprofit-box">
-            <h3>{nonProfit.username}</h3>
+        {donors.map(donor => (
+          <div key={donor.uid} className="nonprofit-box">
+            <h3>{donor.username}</h3>
             <p>Needs: something</p>
             <button>Message</button>
           </div>
