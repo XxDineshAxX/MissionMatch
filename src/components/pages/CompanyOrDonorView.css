@@ -1,0 +1,48 @@
+.company-view {
+    padding: 20px;
+    background: #f9f9ff; /* Slightly different off-white background */
+  }
+  
+  .company-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around; /* Centering boxes */
+    gap: 20px;
+  }
+  
+  .company-box {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 20px;
+    width: 18%; /* Adjusted for 5 boxes per row */
+    height: 200px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin: 10px;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .company-box h3 {
+    color: #567ebf;
+  }
+  
+  .company-box p {
+    color: #666;
+  }
+  
+  .company-box:hover {
+    transform: scale(1.05);
+  }
+  
+  @media (max-width: 1200px) {
+    .company-box {
+      width: 45%;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .company-box {
+      width: 90%;
+    }
+  }
+  

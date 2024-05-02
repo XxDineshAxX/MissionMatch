@@ -1,0 +1,48 @@
+.nonprofit-view {
+    padding: 20px;
+    background: #f4f4f9; /* Slightly off-white background for the whole view */
+  }
+  
+  .nonprofit-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around; /* Centering boxes for a better alignment */
+    gap: 20px;
+  }
+  
+  .nonprofit-box {
+    background: #ffffff; /* White background for the boxes */
+    border-radius: 20px; /* Rounded corners */
+    padding: 20px; /* Sufficient padding for aesthetics */
+    width: 18%; /* Adjusted for 5 boxes per row */
+    height: 200px; /* Fixed height for uniformity */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    text-align: center;
+    margin: 10px; /* Margin to help with alignment */
+    transition: transform 0.3s ease-in-out; /* Smooth scaling on hover */
+  }
+  
+  .nonprofit-box h3 {
+    color: #567ebf; /* Darker blue for headings */
+  }
+  
+  .nonprofit-box p {
+    color: #666; /* Grey text for descriptions */
+  }
+  
+  .nonprofit-box:hover {
+    transform: scale(1.05); /* Slight scale on hover for interactivity */
+  }
+  
+  @media (max-width: 1200px) {
+    .nonprofit-box {
+      width: 45%; /* Adjust width to fit two boxes per row */
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .nonprofit-box {
+      width: 90%; /* Single column layout on very small screens */
+    }
+  }
+  
