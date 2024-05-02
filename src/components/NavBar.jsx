@@ -54,7 +54,7 @@ function NavBar() {
             </li>
             <li className="nav-item">
               <Link
-                to="/services"
+                to="/MissionMatch/services"
                 className="nav-links"
                 onClick={closeMobileMenu}
               >
@@ -63,7 +63,7 @@ function NavBar() {
             </li>
             <li className="nav-item">
               <Link
-                to="/explore"
+                to="/MissionMatch/explore"
                 className="nav-links"
                 onClick={closeMobileMenu}
               >
@@ -72,7 +72,7 @@ function NavBar() {
             </li>
             <li className="nav-item">
               <Link
-                to="/application"
+                to="/MissionMatch/application"
                 className="nav-links"
                 onClick={closeMobileMenu}
               >
@@ -82,7 +82,7 @@ function NavBar() {
             {currentUser != null ? (
               <li className="nav-item">
                 <Link
-                  to="/profile"
+                  to="/MissionMatch/profile"
                   className="nav-links-mobile"
                   onClick={closeMobileMenu}
                 >
@@ -92,7 +92,7 @@ function NavBar() {
             ) : (
               <li className="nav-item">
                 <Link
-                  to="/sign-up"
+                  to="/MissionMatch/sign-up"
                   className="nav-links-mobile"
                   onClick={closeMobileMenu}
                 >

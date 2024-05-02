@@ -8,13 +8,13 @@ function Footer() {
         <div className="footer-link-wrapper">
           <div className="footer-link-items">
             <h2>Menu</h2>
-            <Link to="/sign-up">Home</Link>
-            <Link to="/services">Service</Link>
-            <Link to="/explore">Explore</Link>
+            <Link to="/MissionMatch/sign-up">Home</Link>
+            <Link to="/MissionMatch/services">Service</Link>
+            <Link to="/MissionMatch/explore">Explore</Link>
           </div>
           <div className="footer-link-items">
             <h2>Contact Us</h2>
-            <Link to="/contact">Contact</Link>
+            <Link to="/MissionMatch/contact">Contact</Link>
           </div>
         </div>
         <div className="footer-link-wrapper"></div>

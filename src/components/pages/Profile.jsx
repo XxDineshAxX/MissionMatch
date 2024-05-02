@@ -31,11 +31,13 @@ const Profile = () => {
       <h2>Profile</h2>
 
       <h2>{currentUser.username}</h2>
-      <button className="signup-btn" onClick={() => signOut(auth)}>
-        logout
-      </button>
+      <Link to="/MissionMatch/">
+        <button className="signup-btn" onClick={() => signOut(auth)}>
+          logout
+        </button>
+      </Link>
 
-      <Link to="/admin">
+      <Link to="/MissionMatch/admin">
         <button className="signup-btn">Go to Admin Page </button>{" "}
       </Link>
 

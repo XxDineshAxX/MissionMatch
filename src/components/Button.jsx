@@ -31,7 +31,7 @@ export const Button = ({
   // If user presses the button it will direct based on if user is signed in or not.
   if (currentUser) {
     return (
-      <Link to="/profile" className="btn-mobile">
+      <Link to="/MissionMatch/profile" className="btn-mobile">
         <button
           className={`btn ${checkButtonStyle} ${checkButtonSize}`}
           onClick={onClick}
@@ -43,7 +43,7 @@ export const Button = ({
     );
   } else {
     return (
-      <Link to="/sign-up" className="btn-mobile">
+      <Link to="/MissionMatch/sign-up" className="btn-mobile">
         <button
           className={`btn ${checkButtonStyle} ${checkButtonSize}`}
           onClick={onClick}

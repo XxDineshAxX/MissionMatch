@@ -21,13 +21,16 @@ function App() {
           <NavBar />
           <Routes>
             <Route path="/MissionMatch/" exact element={<Home />}></Route>
-            <Route path="/services" element={<Services />}></Route>
-            <Route path="/explore" element={<Explore />}></Route>
-            <Route path="/sign-up" element={<SignUp />}></Route>
-            <Route path="/application" element={<Application />}></Route>
-            <Route path="/profile" element={<Profile />}></Route>
-            <Route path="/contact" element={<Contact />}></Route>
-            <Route path="/admin" element={<Admin />}></Route>
+            <Route path="/MissionMatch/services" element={<Services />}></Route>
+            <Route path="/MissionMatch/explore" element={<Explore />}></Route>
+            <Route path="/MissionMatch/sign-up" element={<SignUp />}></Route>
+            <Route
+              path="/MissionMatch/application"
+              element={<Application />}
+            ></Route>
+            <Route path="/MissionMatch/profile" element={<Profile />}></Route>
+            <Route path="/MissionMatch/contact" element={<Contact />}></Route>
+            <Route path="/MissionMatch/admin" element={<Admin />}></Route>
           </Routes>
           <Footer></Footer>
         </Router>

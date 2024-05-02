@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import { SigninContext } from "../contexts/SigninContext";
-import "./SignUpForm.css"; 
+import "./SignUpForm.css";
 import { auth, db } from "/src/index.js";
 import {
   createUserWithEmailAndPassword,
@@ -20,7 +20,7 @@ function SignUpForm() {
     username: "",
     email: "",
     password: "",
-    userType: "", 
+    userType: "",
   });
 
   const handleChange = (event) => {
@@ -34,15 +34,19 @@ function SignUpForm() {
   const handleSignUpSubmit = async (event) => {
     event.preventDefault();
     try {
-      const res = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
-      
+      const res = await createUserWithEmailAndPassword(
+        auth,
+        formData.email,
+        formData.password
+      );
+
       const userData = {
         uid: res.user.uid,
         username: formData.username,
         email: formData.email,
         userType: formData.userType,
       };
-  
+
       await Promise.all([
         updateProfile(res.user, {
           displayName: formData.username,
@@ -51,21 +55,24 @@ function SignUpForm() {
         setDoc(doc(db, "userChats", res.user.uid), {}),
         setDoc(doc(db, "userGrants", res.user.uid), {}),
       ]);
-  
-      const userCredential = await signInWithEmailAndPassword(auth, formData.email, formData.password);
-      
+
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        formData.email,
+        formData.password
+      );
+
       //setIsSignedIn(true);
       // setUserInfo({
       //   email: formData.email,
       //   username: formData.username,
       // });
-  
-      navigate("/explore");
+
+      navigate("/MissionMatch/explore");
     } catch (err) {
       console.error("Error during sign-up or login:", err); // Handle errors
     }
   };
-  
 
   const handleLoginSubmit = (event) => {
     event.preventDefault();
@@ -75,7 +82,7 @@ function SignUpForm() {
         // setUserInfo({
         //   email: formData.email,
         // });
-        navigate("/explore");
+        navigate("/MissionMatch/explore");
       })
       .catch((error) => {
         console.error(error);
@@ -128,8 +135,16 @@ function SignUpForm() {
               <option value="non-profit">Non-Profit</option>
               <option value="single donor">Single Donor</option>
             </select>
-            <button type="submit" className="signup-btn">Join MissionMatch</button>
-            <button type="button" className="signup-btn" onClick={() => setShowSignUp(false)}>Have an account? Log In</button>
+            <button type="submit" className="signup-btn">
+              Join MissionMatch
+            </button>
+            <button
+              type="button"
+              className="signup-btn"
+              onClick={() => setShowSignUp(false)}
+            >
+              Have an account? Log In
+            </button>
           </form>
         </div>
       ) : (
@@ -155,8 +170,16 @@ function SignUpForm() {
               onChange={handleChange}
               required
             />
-            <button type="submit" className="signup-btn">Log In</button>
-            <button type="button" className="signup-btn" onClick={() => setShowSignUp(true)}>Need an account? Sign Up</button>
+            <button type="submit" className="signup-btn">
+              Log In
+            </button>
+            <button
+              type="button"
+              className="signup-btn"
+              onClick={() => setShowSignUp(true)}
+            >
+              Need an account? Sign Up
+            </button>
           </form>
         </div>
       )}
