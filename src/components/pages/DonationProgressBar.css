@@ -1,0 +1,58 @@
+.donation-progress-bar {
+    width: 100%;
+    max-width: 500px; /* Increased max-width */
+    margin: 0 auto; /* Center alignment */
+    margin-top: 50px;
+  }
+  
+  .progress-container {
+    width: 100%;
+    height: 30px; /* Increased height */
+    background-color: #f0f0f0;
+    border-radius: 15px; /* Increased border radius */
+    margin-bottom: 20px; /* Increased margin */
+  }
+  
+  .progress-bar {
+    height: 100%;
+    background-color: #005acf;
+    border-radius: 15px; /* Increased border radius */
+  }
+  
+  .progress-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  
+  input[type="number"] {
+    width: 100%;
+    padding: 10px; /* Increased padding */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .donate-btn {
+    padding: 1rem; /* Padding inside button */
+    border-radius: 10px; /* Rounded corners for button */
+    border: none;
+    background: #005acf; /* A darker blue for the button, adjust as necessary */
+    color: white; /* White text for the button */
+    cursor: pointer; /* Cursor pointer */
+    transition: background-color 0.2s, box-shadow 0.2s; /* Smooth transition for hover effects */
+    display: block; /* Make the button a block element */
+    margin: 0 auto; /* Center align the button */
+    margin-top: 10px;
+  }
+  
+  .donate-btn:hover {
+    background: #9bbcf0; /* Even darker blue on hover */
+    /* More pronounced shadow on hover */
+  }
+  
+  /* Style for disabled button */
+  .donate-btn:disabled {
+    background: #ccc; /* Grey background */
+    cursor: not-allowed; /* Not allowed cursor */
+  }
+  

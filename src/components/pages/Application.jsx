@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function Application() {
   const [formData, setFormData] = useState({
@@ -13,6 +13,11 @@ function Application() {
   const handleSignUpSubmit = (e) => {
     e.preventDefault();
   };
+
+  useEffect(() => {
+    // Scroll to the top when the component mounts
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div className="sign-up">

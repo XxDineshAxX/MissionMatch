@@ -12,6 +12,7 @@ import Profile from "./components/pages/Profile";
 import { SigninProvider } from "./contexts/SigninContext";
 import Contact from "./components/pages/Contact";
 import Admin from "./components/pages/Admin";
+import Grant from "./components/pages/Grant";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
             <Route path="/MissionMatch/profile" element={<Profile />}></Route>
             <Route path="/MissionMatch/contact" element={<Contact />}></Route>
             <Route path="/MissionMatch/admin" element={<Admin />}></Route>
+            <Route path="/MissionMatch/grant" element={<Grant />}></Route>
           </Routes>
           <Footer></Footer>
         </Router>

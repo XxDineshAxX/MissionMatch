@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./Admin.css";
 
 const Admin = () => {
@@ -8,6 +8,11 @@ const Admin = () => {
   ];
 
   const dataToRender = mockData.length > 0 ? mockData : mockData;
+
+  useEffect(() => {
+    // Scroll to the top when the component mounts
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div className="admin-container">

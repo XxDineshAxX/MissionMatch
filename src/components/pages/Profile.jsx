@@ -1,5 +1,5 @@
 import "./Profile.css";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { signOut } from "firebase/auth";
 import { SigninContext } from "../../contexts/SigninContext";
 import { auth } from "../../index";
@@ -25,6 +25,11 @@ const Profile = () => {
   ];
 
   const { currentUser } = useContext(SigninContext);
+
+  useEffect(() => {
+    // Scroll to the top when the component mounts
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div className="profile-container">
