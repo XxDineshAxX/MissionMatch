@@ -52,15 +52,27 @@ function NavBar() {
                 Home
               </Link>
             </li>
-            <li className="nav-item">
-              <Link
-                to="/MissionMatch/services"
-                className="nav-links"
-                onClick={closeMobileMenu}
-              >
-                Services
-              </Link>
-            </li>
+            {currentUser != null ? (
+              <li className="nav-item">
+                <Link
+                  to="/MissionMatch/services"
+                  className="nav-links"
+                  onClick={closeMobileMenu}
+                >
+                  Match
+                </Link>
+              </li>
+            ) : (
+              <li className="nav-item">
+                <Link
+                  to="/MissionMatch/sign-up"
+                  className="nav-links"
+                  onClick={closeMobileMenu}
+                >
+                  Match
+                </Link>
+              </li>
+            )}
             <li className="nav-item">
               <Link
                 to="/MissionMatch/explore"
