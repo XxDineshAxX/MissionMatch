@@ -91,7 +91,7 @@ function NavBar() {
                 Post Application
               </Link>
             </li>
-            {currentUser != null ? (
+            {currentUser ? (
               <li className="nav-item">
                 <Link
                   to="/MissionMatch/profile"
@@ -115,7 +115,7 @@ function NavBar() {
           </ul>
           {button && (
             <Button buttonStyle="btn--outline">
-              {currentUser != null ? `Welcome ${currentUser.email}` : "SIGN UP"}
+              {currentUser ? `Welcome ${currentUser.email}` : "SIGN UP"}
             </Button>
           )}
         </div>

@@ -1,28 +1,47 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+} from "firebase/firestore";
+import { db } from '../../index'
 import './CompanyOrDonorView.css'; // Make sure you have this CSS file
 
 function CompanyOrDonorView() {
-  const [nonProfits, setNonProfits] = useState([
-    { id: 1, name: "Non-Profit A", needs: "Educational Supplies" },
-    { id: 2, name: "Non-Profit B", needs: "Funding for Research" },
-    { id: 3, name: "Non-Profit C", needs: "Community Health Resources" },
-    { id: 4, name: "Non-Profit D", needs: "Environmental Advocacy" },
-    { id: 5, name: "Non-Profit E", needs: "Art and Culture Promotion" },
-    { id: 6, name: "Non-Profit F", needs: "Disaster Relief Resources" },
-    { id: 7, name: "Non-Profit G", needs: "Animal Welfare Support" },
-    { id: 8, name: "Non-Profit H", needs: "Homelessness Solutions" },
-    { id: 9, name: "Non-Profit I", needs: "Youth Sports Programs" },
-    { id: 10, name: "Non-Profit J", needs: "Technology Access" }
-  ]);
+  const [nonProfits, setNonProfits] = useState([]);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchNonProfits = async () => {
+      try {
+        const q = query(collection(db, "users"),
+        where("userType", "==", "non-profit")); 
+        const querySnapshot = await getDocs(q);
+        const nonProfitList = [];
+        querySnapshot.forEach((doc) => {
+          nonProfitList.push(doc.data());
+        });
+        const shuffledNonProfits = nonProfitList.sort(() => Math.random() - 0.5);
+        const randomNonProfits = shuffledNonProfits.slice(0, 10);
+        setNonProfits(randomNonProfits);
+      } catch (error) {
+        setError(error.message);
+      }
+    };
+    fetchNonProfits();
+  }, []); // Empty dependency array ensures this effect runs only once when the component mounts
 
   return (
     <div className="nonprofit-view">
       <h2>Non-Profits Seeking Support</h2>
       <div className="nonprofit-grid">
+        {error && <div>Error: {error}</div>}
         {nonProfits.map(nonProfit => (
-          <div key={nonProfit.id} className="nonprofit-box">
-            <h3>{nonProfit.name}</h3>
-            <p>Needs: {nonProfit.needs}</p>
+          <div key={nonProfit.uid} className="nonprofit-box">
+            <h3>{nonProfit.username}</h3>
+            <p>Needs: something</p>
+            <button>Message</button>
           </div>
         ))}
       </div>

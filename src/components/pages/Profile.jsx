@@ -33,7 +33,7 @@ const Profile = () => {
 
   return (
     <div className="profile-container">
-      <h2>Profile</h2>
+      <h1>Profile</h1>
 
       <h2>{currentUser.username}</h2>
       <Link to="/MissionMatch/">
@@ -46,6 +46,7 @@ const Profile = () => {
         <button className="signup-btn">Go to Admin Page </button>{" "}
       </Link>
 
+      <h3> Your Messages </h3>
       <div className="feed-container">
         {/* Display the feed of posts here */}
         <div className="feed">
@@ -57,6 +58,18 @@ const Profile = () => {
             </div>
           ))}
         </div>
+
+        <h3> History </h3>
+        <div className="feed">
+          {/* Map through an array of posts and render each post */}
+          {currentUser.userType != "non-profit" && posts.map((post) => (
+            <div key={post.id} className="post">
+              <h3>{post.title}</h3>
+              <p>{post.description}</p>
+            </div>
+          ))}
+        </div>
+        
       </div>
     </div>
   );
