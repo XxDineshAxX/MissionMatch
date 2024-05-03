@@ -1,22 +1,28 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import {
   collection,
   query,
   where,
   getDocs,
   doc,
+  updateDoc,
   setDoc,
   serverTimestamp,
   getDoc,
 } from "firebase/firestore";
 import { db } from '../../index'
 import './CompanyOrDonorView.css'; // Make sure you have this CSS file
+import { SigninContext } from "../../contexts/SigninContext";
 
 function CompanyOrDonorView() {
+
+  const { currentUser } = useContext(SigninContext);
+
   const [nonProfits, setNonProfits] = useState([]);
   const [error, setError] = useState(null);
   const [showMessageInput, setShowMessageInput] = useState(false);
   const [npo, setNPO] = useState("");
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     const fetchNonProfits = async () => {
@@ -35,43 +41,45 @@ function CompanyOrDonorView() {
         setError(error.message);
       }
     };
-    fetchNonProfits();
-  }, []); // Empty dependency array ensures this effect runs only once when the component mounts
+    fetchNonProfits()
+  }, []); 
 
-  const checkIfChatExists = async (nonProfitId) => {
-    const chatDocRef = doc(db, "chats", `${currentUser.uid}_${nonProfitId}`);
-    const chatDocSnap = await getDoc(chatDocRef);
-    return chatDocSnap.exists();
-  };
+  const handleOrder = (user) =>{
+    setUser(user);
+    handleChatCreation();
+  }
 
-  const handleChatCreation = async (nonProfitId) => {
+  const handleChatCreation = async () => {
+    console.log(user);
+    const combinedId =
+      currentUser.uid > user.uid
+        ? currentUser.uid + user.uid
+        : user.uid + currentUser.uid;
+
     try {
-      const chatExists = await checkIfChatExists(nonProfitId);
-      if (!chatExists) {
-        // Create a chat document in Firestore
-        const chatDocRef = doc(db, "chats", `${currentUser.uid}_${nonProfitId}`);
-        await setDoc(chatDocRef, { messages: [] });
+      const chatstore = await getDoc(doc(db, "chats", combinedId));
 
-        // Update userChats for current user
-        const currentUserDocRef = doc(db, "userChats", currentUser.uid);
-        await setDoc(currentUserDocRef, {
-          [`${currentUser.uid}_${nonProfitId}.userInfo`]: {
-            uid: nonProfitId,
-            userType: "non-profit"
-            // You can add more user information here if needed
+      if (!chatstore.exists()) {
+        
+        await setDoc(doc(db, "chats", combinedId), { messages: [] });
+        
+        await updateDoc(doc(db, "userChats", currentUser.uid), {
+          [combinedId + ".userInfo"]: {
+            uid: user.uid,
+            displayName: user.displayName,
+            photoURL: user.photoURL,
           },
-          [`${currentUser.uid}_${nonProfitId}.date`]: serverTimestamp()
-        }, { merge: true });
+          [combinedId + ".date"]: serverTimestamp(),
+        });
 
-        // Update userChats for the non-profit user
-        const nonProfitUserDocRef = doc(db, "userChats", nonProfitId);
-        await setDoc(nonProfitUserDocRef, {
-          [`${currentUser.uid}_${nonProfitId}.userInfo`]: {
+        await updateDoc(doc(db, "userChats", user.uid), {
+          [combinedId + ".userInfo"]: {
             uid: currentUser.uid,
-            userType: currentUser.userType
+            displayName: currentUser.displayName,
+            photoURL: currentUser.photoURL,
           },
-          [`${currentUser.uid}_${nonProfitId}.date`]: serverTimestamp()
-        }, { merge: true });
+          [combinedId + ".date"]: serverTimestamp(),
+        });
 
       } else {
         console.log('chat exists');
@@ -79,6 +87,9 @@ function CompanyOrDonorView() {
     } catch (error) {
       console.error("Error creating chat:", error);
     }
+
+    setNPO("");
+    setUser(null);
   };
 
   const handleMessageSend = async () => {
@@ -96,7 +107,7 @@ function CompanyOrDonorView() {
             <p>Needs: something</p>
             <button onClick={() => {
               setShowMessageInput(true);
-              handleChatCreation(nonProfit.uid);
+              handleOrder(nonProfit);
               setNPO(nonProfit.username)
             }}>Message</button>
           </div>
