@@ -52,7 +52,7 @@ function CompanyOrDonorView() {
     fetchNonProfits()
   }, []); 
 
-  const handleChatCreation = async (user) => {
+  const handleChatCreation = async (user, username) => {
     const combinedId =
       currentUser.uid > user
         ? currentUser.uid + user
@@ -61,6 +61,7 @@ function CompanyOrDonorView() {
         setSelectedChat({
           chatID:combinedId,
           recepientid: user,
+          recName: username,
         });
 
     try {
@@ -112,7 +113,7 @@ function CompanyOrDonorView() {
             
             <p>Needs: {nonProfit.grants.donationType}</p>
             <button onClick={() => {
-              handleChatCreation(nonProfit.uid);
+              handleChatCreation(nonProfit.uid, nonProfit.username);
               setNPO(nonProfit.username)
             }}>Connect with {nonProfit.username}!
             </button>

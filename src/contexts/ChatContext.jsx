@@ -8,6 +8,7 @@ export const ChatProvider = ({ children }) => {
   const [selectedChat, setSelectedChat] = useState({
     chatID: null,
     recepientID: null,
+    recName: null,
   });
 
   return (

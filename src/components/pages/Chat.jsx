@@ -6,9 +6,10 @@ import { db } from "../../index";
 import { updateDoc, doc, onSnapshot, setDoc, getDoc, arrayUnion } from "firebase/firestore";
 
 function Chat() {
-  const { selectedChat, r } = useSelectedChat();
+  const { selectedChat, r, n} = useSelectedChat();
   const chatID = selectedChat.chatID;
   const recepient = selectedChat.recepientid;
+  const recName = selectedChat.recName;
 
   const [messages, setMessages] = useState([]);
   const [formValue, setFormValue] = useState("");
@@ -89,6 +90,7 @@ function Chat() {
   return (
     <div className="chat-container">
       <h1>Chat Room</h1>
+      <h2>{recName}</h2>
       <div className="chat">
         <section>
           <ChatRoom

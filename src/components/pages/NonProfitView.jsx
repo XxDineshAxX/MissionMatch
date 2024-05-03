@@ -26,7 +26,7 @@ const NonProfitView = () => {
   const [npo, setNPO] = useState("");
   const [user, setUser] = useState(null);
 
-  const handleChatCreation = async (user) => {
+  const handleChatCreation = async (user, username) => {
     const combinedId =
       currentUser.uid > user
         ? currentUser.uid + user
@@ -35,6 +35,7 @@ const NonProfitView = () => {
         setSelectedChat({
           chatID:combinedId,
           recepientid: user,
+          recName: username,
         });
     try {
       const chatstore = await getDoc(doc(db, "chats", combinedId));
@@ -111,7 +112,7 @@ const NonProfitView = () => {
             
             <p>Offering: {donor.grants.donationType}</p>
             <button onClick={() => {
-              handleChatCreation(donor.uid);
+              handleChatCreation(donor.uid, donor.username);
               setNPO(donor.username);
             }}>Connect with {donor.username}!
             </button>
