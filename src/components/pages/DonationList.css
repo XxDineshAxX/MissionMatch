@@ -1,0 +1,26 @@
+.donation-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .donation-table th, .donation-table td {
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .date-column {
+    width: 25%; /* Adjust the width as needed */
+  }
+  
+  .type-column {
+    width: 25%; /* Adjust the width as needed */
+  }
+  
+  .role-column {
+    width: 25%; /* Adjust the width as needed */
+  }
+  
+  .amount-column {
+    width: 25%; /* Adjust the width as needed */
+  }
+  

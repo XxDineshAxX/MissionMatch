@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import "./DonationProgressBar.css"; // Import CSS file for styling
 import { SigninContext } from "../../contexts/SigninContext";
 import { useSelectedUid } from "../../contexts/SelectedUidContext";
-import { doc, updateDoc } from "firebase/firestore";
+import { doc, updateDoc, collection, addDoc, getDoc, setDoc } from "firebase/firestore";
 import { db } from '../../index';
 
 function DonationProgressBar() {
@@ -47,8 +47,42 @@ function DonationProgressBar() {
         dispensed: newRaisedAmount
       }));
 
+      // Update donation history for donor
+      await updateDonationHistory(currentUser.uid, {
+        amount: donationAmount,
+        donationType: donationType,
+        timestamp: new Date().toISOString(),
+        role: 'donor' // Indicate the role of the user (donor)
+      });
+
+      // Update donation history for recipient (selectedUid)
+      await updateDonationHistory(selectedUid, {
+        amount: donationAmount,
+        donationType: donationType,
+        timestamp: new Date().toISOString(),
+        role: 'recipient' // Indicate the role of the user (recipient)
+      });
+
     } catch (error) {
       console.error('Error updating dispensed amount:', error);
+    }
+  };
+
+  const updateDonationHistory = async (userUid, donationDetails) => {
+    try {
+      // Check if the user has a history document
+      const historyDocRef = doc(db, 'history', userUid);
+      const historyDocSnap = await getDoc(historyDocRef);
+
+      if (!historyDocSnap.exists()) {
+        // If history document doesn't exist, create it
+        await setDoc(historyDocRef, {});
+      }
+
+      // Add donation details to the history collection
+      await addDoc(collection(historyDocRef, 'donations'), donationDetails);
+    } catch (error) {
+      console.error('Error updating donation history:', error);
     }
   };
 

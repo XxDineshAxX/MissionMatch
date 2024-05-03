@@ -55,6 +55,7 @@ function SignUpForm() {
         setDoc(doc(db, "users", res.user.uid), userData),
         setDoc(doc(db, "userChats", res.user.uid), {}),
         setDoc(doc(db, "userGrants", res.user.uid), {}),
+        setDoc(doc(db, "history", res.user.uid), {}),
       ]);
 
       const userCredential = await signInWithEmailAndPassword(
