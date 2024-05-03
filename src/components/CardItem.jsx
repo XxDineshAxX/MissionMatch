@@ -9,7 +9,10 @@ function CardItem(props) {
     setSelectedUidData({
       selectedUid: props.uid,
       donationType: props.donationType,
-      amount: props.amount
+      amount: props.amount,
+      title: props.label,
+      description: props.text,
+      dispensed: props.dispensed,
     });
   };
 

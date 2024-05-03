@@ -1,13 +1,24 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import "./DonationProgressBar.css"; // Import CSS file for styling
 import { SigninContext } from "../../contexts/SigninContext";
+import { useSelectedUid } from "../../contexts/SelectedUidContext";
+import { doc, updateDoc } from "firebase/firestore";
+import { db } from '../../index';
 
 function DonationProgressBar() {
+  const { selectedUidData, setSelectedUidData } = useSelectedUid();
+  const { selectedUid, donationType, amount, title, description, dispensed } = selectedUidData;
+
   const [donationAmount, setDonationAmount] = useState(0);
   const [confirmedDonation, setConfirmedDonation] = useState(null);
-  const [raisedAmount, setRaisedAmount] = useState(0);
-  const goalAmount = 1000; // Set your fundraising goal amount here
-  //const stripe = ('stripe')('sk_test_51PBjwgCnXQzMJSHMgxTM0w0hnPRY9HLt1S7yelFFtZRXFwqI8beBwIheMoDcv4lVEKTb1svKxFEUHqGqWErJwVGe00RKzEpF4i'); // stripe instance, test
+  const [raisedAmount, setRaisedAmount] = useState(dispensed);
+  const goalAmount = amount; // Set your fundraising goal amount here
+
+  const { currentUser } = useContext(SigninContext);
+
+  useEffect(() => {
+    setRaisedAmount(dispensed);
+  }, [dispensed]);
 
   const handleDonationChange = (event) => {
     const amount = parseFloat(event.target.value);
@@ -16,16 +27,32 @@ function DonationProgressBar() {
     }
   };
 
-  const handleConfirmDonation = () => {
-    window.open("https://donate.stripe.com/test_bIY00d3JW9E3exq7ss", "_blank");
+  const handleConfirmDonation = async () => {
     // Update progress bar only upon confirmed payment
     setConfirmedDonation(donationAmount);
-    setRaisedAmount(raisedAmount + donationAmount);
+    const newRaisedAmount = raisedAmount + donationAmount;
+
+    // Open Stripe window after updating Firestore
+    window.open("https://donate.stripe.com/test_bIY00d3JW9E3exq7ss", "_blank");
+
+    try {
+      // Update dispensed field in userGrants document
+      await updateDoc(doc(db, 'userGrants', selectedUid), {
+        dispensed: newRaisedAmount
+      });
+
+      // Update context with the new dispensed amount
+      setSelectedUidData(prevState => ({
+        ...prevState,
+        dispensed: newRaisedAmount
+      }));
+
+    } catch (error) {
+      console.error('Error updating dispensed amount:', error);
+    }
   };
 
   const percentage = Math.min((raisedAmount / goalAmount) * 100, 100); // Ensure percentage doesn't exceed 100
-
-  const { currentUser } = useContext(SigninContext);
 
   return (
     <div className="donation-progress-bar">

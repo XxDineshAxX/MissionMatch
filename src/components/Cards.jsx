@@ -65,6 +65,7 @@ function Cards() {
           src="./images/img-12.jpg"
           text={nonProfit.grants.description}
           label={nonProfit.grants.title}
+          dispensed={nonProfit.grants.dispensed}
           path={
             currentUser != null
               ? `/MissionMatch/grant`

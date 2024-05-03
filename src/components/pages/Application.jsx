@@ -43,6 +43,7 @@ function Application() {
         description: formData.description,
         donationGoal: formData.donationGoal,
         donationType: formData.donationType,
+        dispensed: 0,
       };
 
       const userGrantRef = doc(db, "userGrants", currentUser.uid);

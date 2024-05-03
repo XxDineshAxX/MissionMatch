@@ -8,7 +8,10 @@ export const SelectedUidProvider = ({ children }) => {
   const [selectedUidData, setSelectedUidData] = useState({
     selectedUid: null,
     donationType: null,
-    amount: null
+    amount: null,
+    title: null,
+    description: null,
+    dispensed: null,
   });
 
   return (
