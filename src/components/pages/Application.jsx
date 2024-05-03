@@ -1,6 +1,23 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { db } from "/src/index.js";
+import { SigninContext } from "../../contexts/SigninContext";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  doc,
+  updateDoc,
+  setDoc,
+  serverTimestamp,
+  getDoc,
+} from "firebase/firestore";
+
 
 function Application() {
+
+  const { currentUser } = useContext(SigninContext);
+
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -15,9 +32,42 @@ function Application() {
     setFormData({ ...formData, [name]: newValue });
   };
 
-  const handleSignUpSubmit = (e) => {
+  const handleChangeT = (event) => {
+    const { name, value } = event.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Add your form submission logic here
+
+    try {
+
+      const grantData = {
+        title: formData.title,
+        description: formData.description,
+        donationGoal: formData.donationGoal,
+        donationType: formData.donationType,
+      };
+
+      const userGrantRef = doc(db, "userGrants", currentUser.uid);
+      
+      await setDoc(userGrantRef, grantData);
+
+      setFormData({
+        title: "",
+        description: "",
+        donationGoal: "",
+        donationType: "",
+      });
+
+      alert('Thanks for posting!');
+    } catch (error)
+    {
+      console.log("error: ", error)
+    }
   };
 
   useEffect(() => {
@@ -28,15 +78,15 @@ function Application() {
   return (
     <div className="sign-up">
       <div className="signup-container">
-        <p>Post company application</p>
-        <form onSubmit={handleSignUpSubmit} className="signup-form">
+        <p>Post an Application or Grant!</p>
+        <form onSubmit={handleSubmit} className="signup-form">
           <input
             className="signup-input"
             type="text"
             placeholder="Title"
             name="title"
             value={formData.title}
-            onChange={handleChange}
+            onChange={handleChangeT}
             required
           />
           <input
@@ -45,7 +95,7 @@ function Application() {
             placeholder="Description"
             name="description"
             value={formData.description}
-            onChange={handleChange}
+            onChange={handleChangeT}
             required
           />
           <input
@@ -59,12 +109,12 @@ function Application() {
           />
           <select
               className="signup-input"
-              name="userType"
+              name="donationType"
               value={formData.donationType}
-              onChange={handleChange}
+              onChange={handleChangeT}
               required
             >
-              <option value="">Select Account Type</option>
+              <option value="">Select Donation Type</option>
               <option value="company">Money</option>
               <option value="non-profit">Supplies</option>
               <option value="single donor">Volunteers</option>
