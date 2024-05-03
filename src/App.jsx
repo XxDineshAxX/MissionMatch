@@ -15,12 +15,14 @@ import Admin from "./components/pages/Admin";
 import Grant from "./components/pages/Grant";
 import Chat from "./components/pages/Chat";
 import { SelectedUidProvider } from './contexts/SelectedUidContext';
+import { ChatProvider } from "./contexts/ChatContext";
 
 function App() {
   return (
     <>
       <SigninProvider>
         <SelectedUidProvider>
+          <ChatProvider>
         <Router>
           <NavBar />
           <Routes>
@@ -40,6 +42,7 @@ function App() {
           </Routes>
           <Footer></Footer>
         </Router>
+        </ChatProvider>
         </SelectedUidProvider>
       </SigninProvider>
     </>

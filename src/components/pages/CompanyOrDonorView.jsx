@@ -14,9 +14,10 @@ import { db } from '../../index'
 import './CompanyOrDonorView.css'; // Make sure you have this CSS file
 import { SigninContext } from "../../contexts/SigninContext";
 import { useNavigate } from "react-router-dom";
+import { useSelectedChat } from "../../contexts/ChatContext";
 
 function CompanyOrDonorView() {
-
+  const { setSelectedChat } = useSelectedChat();
   const { currentUser } = useContext(SigninContext);
   const navigate = useNavigate();
   const [nonProfits, setNonProfits] = useState([]);
@@ -51,17 +52,16 @@ function CompanyOrDonorView() {
     fetchNonProfits()
   }, []); 
 
-  const handleOrder = (user) =>{
-    setUser(user);
-    handleChatCreation();
-  }
-
-  const handleChatCreation = async () => {
-    console.log(user);
+  const handleChatCreation = async (user) => {
     const combinedId =
-      currentUser.uid > user.uid
-        ? currentUser.uid + user.uid
-        : user.uid + currentUser.uid;
+      currentUser.uid > user
+        ? currentUser.uid + user
+        : user + currentUser.uid;
+
+        setSelectedChat({
+          chatID:combinedId,
+          recepientid: user,
+        });
 
     try {
       const chatstore = await getDoc(doc(db, "chats", combinedId));
@@ -112,7 +112,7 @@ function CompanyOrDonorView() {
             
             <p>Needs: {nonProfit.grants.donationType}</p>
             <button onClick={() => {
-              handleOrder(nonProfit);
+              handleChatCreation(nonProfit.uid);
               setNPO(nonProfit.username)
             }}>Connect with {nonProfit.username}!
             </button>

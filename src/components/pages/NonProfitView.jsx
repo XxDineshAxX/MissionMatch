@@ -14,8 +14,10 @@ import { db } from '../../index'
 import './NonProfitView.css'; // Ensure you have a corresponding CSS file for styling
 import { SigninContext } from "../../contexts/SigninContext";
 import { useNavigate } from "react-router-dom";
+import { useSelectedChat } from "../../contexts/ChatContext";
 
 const NonProfitView = () => {
+  const { setSelectedChat } = useSelectedChat();
   // Expanded mock data representing companies
   const { currentUser } = useContext(SigninContext);
   const navigate = useNavigate();
@@ -24,19 +26,16 @@ const NonProfitView = () => {
   const [npo, setNPO] = useState("");
   const [user, setUser] = useState(null);
 
-
-  const handleOrder = (user) =>{
-    setUser(user);
-    handleChatCreation();
-  }
-
-  const handleChatCreation = async () => {
-    console.log(user);
+  const handleChatCreation = async (user) => {
     const combinedId =
-      currentUser.uid > user.uid
-        ? currentUser.uid + user.uid
-        : user.uid + currentUser.uid;
+      currentUser.uid > user
+        ? currentUser.uid + user
+        : user + currentUser.uid;
 
+        setSelectedChat({
+          chatID:combinedId,
+          recepientid: user,
+        });
     try {
       const chatstore = await getDoc(doc(db, "chats", combinedId));
 
@@ -112,8 +111,8 @@ const NonProfitView = () => {
             
             <p>Offering: {donor.grants.donationType}</p>
             <button onClick={() => {
-              handleOrder(donor);
-              setNPO(donor.username)
+              handleChatCreation(donor.uid);
+              setNPO(donor.username);
             }}>Connect with {donor.username}!
             </button>
             
