@@ -13,11 +13,67 @@ import {
 import { db } from '../../index'
 import './NonProfitView.css'; // Ensure you have a corresponding CSS file for styling
 import { SigninContext } from "../../contexts/SigninContext";
+import { useNavigate } from "react-router-dom";
 
 const NonProfitView = () => {
   // Expanded mock data representing companies
+  const { currentUser } = useContext(SigninContext);
+  const navigate = useNavigate();
   const [donors, setDonors] = useState([]);
   const [error, setError] = useState(null);
+  const [npo, setNPO] = useState("");
+  const [user, setUser] = useState(null);
+
+
+  const handleOrder = (user) =>{
+    setUser(user);
+    handleChatCreation();
+  }
+
+  const handleChatCreation = async () => {
+    console.log(user);
+    const combinedId =
+      currentUser.uid > user.uid
+        ? currentUser.uid + user.uid
+        : user.uid + currentUser.uid;
+
+    try {
+      const chatstore = await getDoc(doc(db, "chats", combinedId));
+
+      if (!chatstore.exists()) {
+        
+        await setDoc(doc(db, "chats", combinedId), { messages: [] });
+        
+        await updateDoc(doc(db, "userChats", currentUser.uid), {
+          [combinedId + ".userInfo"]: {
+            uid: user.uid,
+            displayName: user.displayName,
+            photoURL: user.photoURL,
+          },
+          [combinedId + ".date"]: serverTimestamp(),
+        });
+
+        await updateDoc(doc(db, "userChats", user.uid), {
+          [combinedId + ".userInfo"]: {
+            uid: currentUser.uid,
+            displayName: currentUser.displayName,
+            photoURL: currentUser.photoURL,
+          },
+          [combinedId + ".date"]: serverTimestamp(),
+        });
+
+      } else {
+        console.log('chat exists');
+      }
+    } catch (error) {
+      console.error("Error creating chat:", error);
+    }
+
+    // setNPO("");
+    // setUser(null);
+
+    navigate("/MissionMatch/chat");
+  };
 
   useEffect(() => {
     const fetchDonors = async () => {
@@ -55,7 +111,11 @@ const NonProfitView = () => {
             <h3>{donor.username}</h3>
             
             <p>Offering: {donor.grants.donationType}</p>
-            <button>Connect with {donor.username}!</button>
+            <button onClick={() => {
+              handleOrder(donor);
+              setNPO(donor.username)
+            }}>Connect with {donor.username}!
+            </button>
             
           </div>
         ))}

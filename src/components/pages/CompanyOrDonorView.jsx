@@ -13,14 +13,14 @@ import {
 import { db } from '../../index'
 import './CompanyOrDonorView.css'; // Make sure you have this CSS file
 import { SigninContext } from "../../contexts/SigninContext";
+import { useNavigate } from "react-router-dom";
 
 function CompanyOrDonorView() {
 
   const { currentUser } = useContext(SigninContext);
-
+  const navigate = useNavigate();
   const [nonProfits, setNonProfits] = useState([]);
   const [error, setError] = useState(null);
-  const [showMessageInput, setShowMessageInput] = useState(false);
   const [npo, setNPO] = useState("");
   const [user, setUser] = useState(null);
 
@@ -95,13 +95,10 @@ function CompanyOrDonorView() {
       console.error("Error creating chat:", error);
     }
 
-    setNPO("");
-    setUser(null);
-  };
+    // setNPO("");
+    // setUser(null);
 
-  const handleMessageSend = async () => {
-
-    setShowMessageInput(false);
+    navigate("/MissionMatch/chat");
   };
 
   return (
@@ -115,20 +112,13 @@ function CompanyOrDonorView() {
             
             <p>Needs: {nonProfit.grants.donationType}</p>
             <button onClick={() => {
-              setShowMessageInput(true);
               handleOrder(nonProfit);
               setNPO(nonProfit.username)
-            }}>Connect with {nonProfit.username}!</button>
+            }}>Connect with {nonProfit.username}!
+            </button>
           </div>
         ))}
       </div>
-      {showMessageInput && (
-        <div className="nonprofit-box">
-          <h3>Send a Message to {npo}</h3>
-          <input type="text" />
-          <button onClick={handleMessageSend}>Send</button>
-        </div>
-      )}
     </div>
   );
 }
