@@ -1,0 +1,39 @@
+.chat-container {
+    
+    min-height: 95vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: inset 0 0 0 1000px rgba(249,247,245);
+    object-fit: contain;
+    background-repeat: no-repeat;
+    background-position: bottom left;
+    /* background-attachment: fixed; */
+    z-index: -1;
+}
+
+.chat{
+    
+    height: 80vh;
+    border-radius: 25px;
+    margin: 25px;
+    display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  width: 37%;
+    background-color: rgb(255, 255, 255);
+    align-items: center;
+
+  
+}
+
+
+.form-wrapper {
+    position: sticky;
+    bottom: 0;
+    background-color: rgb(129, 129, 129);
+    width: 100%;
+  max-width: 728px;
+}
