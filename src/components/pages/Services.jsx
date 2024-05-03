@@ -1,5 +1,6 @@
 import { useState, useContext, useEffect } from "react";
 import { SigninContext } from "../../contexts/SigninContext";
+import { Link } from "react-router-dom";
 import "./Services.css";
 
 const mockDataOrganizations = [
@@ -76,7 +77,9 @@ export default function Services() {
                 </li>
               ))}
             </ul>
-            <button>Request Match</button>
+            <Link to="/MissionMatch/grant">
+              <button>Request Match</button>
+            </Link>
           </div>
         ))}
       </div>

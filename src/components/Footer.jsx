@@ -18,7 +18,11 @@ function Footer() {
             ) : (
               <Link to="/MissionMatch/sign-up">Match</Link>
             )}
-            <Link to="/MissionMatch/explore">Explore</Link>
+            {currentUser != null ? (
+              <Link to="/MissionMatch/explore">Explore</Link>
+            ) : (
+              <Link to="/MissionMatch/sign-up">Explore</Link>
+            )}
           </div>
           <div className="footer-link-items">
             <h2>Contact Us</h2>
