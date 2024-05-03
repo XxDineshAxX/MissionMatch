@@ -60,6 +60,8 @@ function Cards() {
           {nonProfits.map(nonProfit => (
           <CardItem
           uid={nonProfit.uid} 
+          donationType={nonProfit.grants.donationType}
+          amount={nonProfit.grants.donationGoal}
           src="./images/img-12.jpg"
           text={nonProfit.grants.description}
           label={nonProfit.grants.title}

@@ -3,10 +3,14 @@ import { Link } from 'react-router-dom';
 import { useSelectedUid } from "../contexts/SelectedUidContext";
 
 function CardItem(props) {
-  const { setSelectedUid } = useSelectedUid();
+  const { setSelectedUidData } = useSelectedUid();
 
   const handleClick = () => {
-    setSelectedUid(props.uid);
+    setSelectedUidData({
+      selectedUid: props.uid,
+      donationType: props.donationType,
+      amount: props.amount
+    });
   };
 
   return (

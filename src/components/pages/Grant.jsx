@@ -8,7 +8,8 @@ import { doc, getDoc } from "firebase/firestore";
 import { db } from '../../index'
 
 function Grant() {
-  const { selectedUid } = useSelectedUid();
+  const { selectedUidData } = useSelectedUid();
+  const { selectedUid, donationType, amount } = selectedUidData;
   const [grant, setGrant] = useState(null);
 
   useEffect(() => {
@@ -43,8 +44,8 @@ function Grant() {
               <figure className="grant__item__pic-wrap" data-category="Medical">
                 <img src="./images/img-10.jpg" alt="IMG" className="grant__item__img" />
               </figure>
-              <h2>Organizer</h2>
-              <p>Cancer Fighters LLC</p>
+              <h2>{donationType}</h2>
+              <p>{amount}</p>
               <DonationProgressBar />
             </div>
 

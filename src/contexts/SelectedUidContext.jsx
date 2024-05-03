@@ -1,14 +1,18 @@
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 
 const SelectedUidContext = createContext(null);
 
 export const useSelectedUid = () => useContext(SelectedUidContext);
 
 export const SelectedUidProvider = ({ children }) => {
-  const [selectedUid, setSelectedUid] = useState(null);
+  const [selectedUidData, setSelectedUidData] = useState({
+    selectedUid: null,
+    donationType: null,
+    amount: null
+  });
 
   return (
-    <SelectedUidContext.Provider value={{ selectedUid, setSelectedUid }}>
+    <SelectedUidContext.Provider value={{ selectedUidData, setSelectedUidData }}>
       {children}
     </SelectedUidContext.Provider>
   );
