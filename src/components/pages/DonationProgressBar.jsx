@@ -48,7 +48,7 @@ function DonationProgressBar() {
           <button
             className="donate-btn"
             onClick={handleConfirmDonation}
-            disabled={donationAmount === 0} // Disable button if donation amount is 0
+            disabled={donationAmount <= 0} // Disable button if donation amount is 0
           >
             Confirm Donation
           </button>
