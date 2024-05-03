@@ -1,14 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import {
   collection,
   query,
   where,
   getDocs,
   doc,
+  updateDoc,
+  setDoc,
+  serverTimestamp,
   getDoc,
 } from "firebase/firestore";
 import { db } from '../../index'
 import './NonProfitView.css'; // Ensure you have a corresponding CSS file for styling
+import { SigninContext } from "../../contexts/SigninContext";
 
 const NonProfitView = () => {
   // Expanded mock data representing companies

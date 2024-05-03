@@ -20,6 +20,7 @@ function Cards() {
   const [nonProfits, setNonProfits] = useState([]);
   const [error, setError] = useState(null);
 
+
   useEffect(() => {
     const fetchNonProfits = async () => {
       try {
@@ -58,13 +59,13 @@ function Cards() {
           {error && <div>Error: {error}</div>}
           {nonProfits.map(nonProfit => (
           <CardItem
-          id={nonProfit.id}
+          uid={nonProfit.uid} 
           src="./images/img-12.jpg"
           text={nonProfit.grants.description}
           label={nonProfit.grants.title}
           path={
             currentUser != null
-              ? "/MissionMatch/grant"
+              ? `/MissionMatch/grant`
               : "/MissionMatch/sign-up"
           }
         />

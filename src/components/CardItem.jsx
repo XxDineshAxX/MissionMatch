@@ -1,11 +1,22 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useState, useEffect } from "react";
+import { Link } from 'react-router-dom';
+import { useSelectedUid } from "../contexts/SelectedUidContext";
 
 function CardItem(props) {
+  const { setSelectedUid } = useSelectedUid();
+
+  const handleClick = () => {
+    setSelectedUid(props.uid);
+  };
+
   return (
     <>
       <li className="cards__item">
-        <Link className="cards__item__link" to={props.path}>
+        <Link
+          to="/MissionMatch/grant"
+          className="cards__item__link"
+          onClick={handleClick}
+        >
           <figure className="cards__item__pic-wrap" data-category={props.label}>
             <img src={props.src} alt="IMG" className="cards__item__img" />
           </figure>

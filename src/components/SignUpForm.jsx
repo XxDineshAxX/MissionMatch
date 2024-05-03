@@ -40,6 +40,7 @@ function SignUpForm() {
         formData.password
       );
 
+
       const userData = {
         uid: res.user.uid,
         username: formData.username,

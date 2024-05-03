@@ -14,11 +14,13 @@ import Contact from "./components/pages/Contact";
 import Admin from "./components/pages/Admin";
 import Grant from "./components/pages/Grant";
 import Chat from "./components/pages/Chat";
+import { SelectedUidProvider } from './contexts/SelectedUidContext';
 
 function App() {
   return (
     <>
       <SigninProvider>
+        <SelectedUidProvider>
         <Router>
           <NavBar />
           <Routes>
@@ -38,6 +40,7 @@ function App() {
           </Routes>
           <Footer></Footer>
         </Router>
+        </SelectedUidProvider>
       </SigninProvider>
     </>
   );
