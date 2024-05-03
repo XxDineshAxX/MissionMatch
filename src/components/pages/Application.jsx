@@ -5,6 +5,7 @@ function Application() {
     title: "",
     description: "",
     donationGoal: "",
+    donationType: "",
   });
 
   const handleChange = (e) => {
@@ -56,6 +57,18 @@ function Application() {
             onChange={handleChange}
             required
           />
+          <select
+              className="signup-input"
+              name="userType"
+              value={formData.donationType}
+              onChange={handleChange}
+              required
+            >
+              <option value="">Select Account Type</option>
+              <option value="company">Money</option>
+              <option value="non-profit">Supplies</option>
+              <option value="single donor">Volunteers</option>
+            </select>
 
           <button type="submit" className="signup-btn">
             Post Application
