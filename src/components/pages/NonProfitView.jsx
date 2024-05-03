@@ -4,6 +4,8 @@ import {
   query,
   where,
   getDocs,
+  doc,
+  getDoc,
 } from "firebase/firestore";
 import { db } from '../../index'
 import './NonProfitView.css'; // Ensure you have a corresponding CSS file for styling
@@ -17,15 +19,21 @@ const NonProfitView = () => {
     const fetchDonors = async () => {
       try {
         const q = query(collection(db, "users"),
-        where("userType", "!=", "non-profit")); 
+          where("userType", "!=", "non-profit")); 
         const querySnapshot = await getDocs(q);
-        const donorList = [];
-        querySnapshot.forEach((doc) => {
-          donorList.push(doc.data());
-        });
-        const shuffledDonors = donorList.sort(() => Math.random() - 0.5);
-        const randomDonors = shuffledDonors.slice(0, 10);
-        setDonors(randomDonors);
+        const nonProfitList = [];
+        for (const docRef of querySnapshot.docs) {
+          const donorData = docRef.data();
+          const donorGrantsRef = doc(db, "userGrants", donorData.uid);
+          const donorGrantsDoc = await getDoc(donorGrantsRef);
+          if (donorGrantsDoc.exists() && donorGrantsDoc != null) {
+            nonProfitList.push({ ...donorData, grants: donorGrantsDoc.data() });
+          } 
+        }
+        // in case of expansion
+        // const shuffledNonProfits = nonProfitList.sort(() => Math.random() - 0.5);
+        // const randomNonProfits = shuffledNonProfits.slice(0, 10);
+        setDonors(nonProfitList);
       } catch (error) {
         setError(error.message);
       }
@@ -41,8 +49,10 @@ const NonProfitView = () => {
         {donors.map(donor => (
           <div key={donor.uid} className="nonprofit-box">
             <h3>{donor.username}</h3>
-            <p>Needs: something</p>
-            <button>Message</button>
+            
+            <p>Offering: {donor.grants.donationType}</p>
+            <button>Connect with {donor.username}!</button>
+            
           </div>
         ))}
       </div>

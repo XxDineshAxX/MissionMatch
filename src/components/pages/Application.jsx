@@ -2,15 +2,8 @@ import React, { useState, useEffect, useContext } from "react";
 import { db } from "/src/index.js";
 import { SigninContext } from "../../contexts/SigninContext";
 import {
-  collection,
-  query,
-  where,
-  getDocs,
   doc,
-  updateDoc,
   setDoc,
-  serverTimestamp,
-  getDoc,
 } from "firebase/firestore";
 
 
@@ -78,7 +71,17 @@ function Application() {
   return (
     <div className="sign-up">
       <div className="signup-container">
-        <p>Post an Application or Grant!</p>
+        <p>Post an Application or Grant:</p>
+        {currentUser.userType != "non-profit" && 
+        <p>
+          Let Non-Profit Organizations know you're ready to help!
+        </p>
+        }
+        {currentUser.userType == "non-profit" && 
+        <p>
+          Get the word out on your goals!
+        </p>
+        }
         <form onSubmit={handleSubmit} className="signup-form">
           <input
             className="signup-input"
@@ -115,9 +118,9 @@ function Application() {
               required
             >
               <option value="">Select Donation Type</option>
-              <option value="company">Money</option>
-              <option value="non-profit">Supplies</option>
-              <option value="single donor">Volunteers</option>
+              <option value="money">Money</option>
+              <option value="supplies">Supplies</option>
+              <option value="volunteers">Volunteers</option>
             </select>
 
           <button type="submit" className="signup-btn">

@@ -31,12 +31,19 @@ function CompanyOrDonorView() {
           where("userType", "==", "non-profit")); 
         const querySnapshot = await getDocs(q);
         const nonProfitList = [];
-        querySnapshot.forEach((doc) => {
-          nonProfitList.push({ uid: doc.id, ...doc.data() });
-        });
-        const shuffledNonProfits = nonProfitList.sort(() => Math.random() - 0.5);
-        const randomNonProfits = shuffledNonProfits.slice(0, 10);
-        setNonProfits(randomNonProfits);
+        for (const docRef of querySnapshot.docs) {
+          const donorData = docRef.data();
+          const donorGrantsRef = doc(db, "userGrants", donorData.uid);
+          const donorGrantsDoc = await getDoc(donorGrantsRef);
+          if (donorGrantsDoc.exists() && donorGrantsDoc != null) {
+            //console.log(donorGrantsDoc.data().donationType);
+            nonProfitList.push({ ...donorData, grants: donorGrantsDoc.data() });
+          } 
+        }
+        // in case of expansion
+        // const shuffledNonProfits = nonProfitList.sort(() => Math.random() - 0.5);
+        // const randomNonProfits = shuffledNonProfits.slice(0, 10);
+        setNonProfits(nonProfitList);
       } catch (error) {
         setError(error.message);
       }
@@ -105,7 +112,8 @@ function CompanyOrDonorView() {
         {nonProfits.map(nonProfit => (
           <div key={nonProfit.uid} className="nonprofit-box">
             <h3>{nonProfit.username}</h3>
-            <p>Needs: something</p>
+            
+            <p>Needs: {nonProfit.grants.donationType}</p>
             <button onClick={() => {
               setShowMessageInput(true);
               handleOrder(nonProfit);
