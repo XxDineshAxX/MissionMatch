@@ -93,6 +93,7 @@ function CompanyOrDonorView() {
   };
 
   const handleMessageSend = async () => {
+
     setShowMessageInput(false);
   };
 
@@ -109,7 +110,7 @@ function CompanyOrDonorView() {
               setShowMessageInput(true);
               handleOrder(nonProfit);
               setNPO(nonProfit.username)
-            }}>Message</button>
+            }}>Connect with {nonProfit.username}!</button>
           </div>
         ))}
       </div>

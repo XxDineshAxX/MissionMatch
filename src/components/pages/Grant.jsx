@@ -52,9 +52,6 @@ function Grant() {
           </p>
         </div>
       </div>
-      <div className="recs">
-        <Cards></Cards>
-      </div>
     </>
   );
 }
