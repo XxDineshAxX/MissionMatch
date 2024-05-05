@@ -94,15 +94,27 @@ function NavBar() {
                 </Link>
               </li>
             )}
-            <li className="nav-item">
-              <Link
-                to="/MissionMatch/application"
-                className="nav-links"
-                onClick={closeMobileMenu}
-              >
-                Post Application
-              </Link>
-            </li>
+            {currentUser != null ? (
+              <li className="nav-item">
+                <Link
+                  to="/MissionMatch/application"
+                  className="nav-links"
+                  onClick={closeMobileMenu}
+                >
+                  Post Application
+                </Link>
+              </li>
+            ) : (
+              <li className="nav-item">
+                <Link
+                  to="/MissionMatch/sign-up"
+                  className="nav-links"
+                  onClick={closeMobileMenu}
+                >
+                  Post Application
+                </Link>
+              </li>
+            )}
             {currentUser ? (
               <li className="nav-item">
                 <Link
